@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { type AdResponse, fetchAd } from './fetchAD';
+import { type AdResponseType, fetchAd } from './fetchAd';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('fetchAd', () => {
-  const mockResponse: AdResponse = {
+  const mockResponse: AdResponseType = {
     code: 0,
     msg: 'OK',
     result: {
@@ -20,14 +20,20 @@ describe('fetchAd', () => {
   test('성공적으로 광고를 가져옵니다', async () => {
     mockedAxios.get.mockResolvedValue({ data: mockResponse });
 
-    const result = await fetchAd({ unit_id: 'PUBLIC_TEST_UNIT_ID_375_80' });
+    const result = await fetchAd({
+      unit_id: 'PUBLIC_TEST_UNIT_ID_375_80',
+      pf: 'web',
+      lcl: 'ko_KR',
+    });
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://api-v2.adrop.io/request?unit=PUBLIC_TEST_UNIT_ID_375_80'
+      expect.stringContaining(
+        'https://api-v2.adrop.io/request?unit=PUBLIC_TEST_UNIT_ID_375_80'
+      )
     );
     expect(result).toEqual(mockResponse);
     expect(result.result.ad).toContain(
-      '<div style=\'height:100%;\'><a class="class-4a12175058ee0fcd18bd"'
+      '<div style=\'height:100%;\'><a class="class-a5ada9fa9942a4ef741f"'
     );
   });
 

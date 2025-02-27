@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export interface AdResponse {
+export interface AdResponseType {
   code: number;
   msg: string;
   result: {
@@ -27,9 +27,9 @@ export async function fetchAd({
   user_id,
   pf = 'web',
   lcl = 'ko_KR',
-}: fetchADParamsType): Promise<AdResponse> {
+}: fetchADParamsType): Promise<AdResponseType> {
   try {
-    const response = await axios.get<AdResponse>(
+    const response = await axios.get<AdResponseType>(
       `https://api-v2.adrop.io/request?unit=${unit_id}&pf=${pf}&lcl=${lcl}${
         user_id ? `&uid=${user_id}` : ''
       }`

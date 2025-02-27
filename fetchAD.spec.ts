@@ -3,6 +3,11 @@ import { type AdResponseType, fetchAd } from './fetchAd';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
+test('unit_id가 없을 경우 에러 발생', async () => {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  await expect(fetchAd({} as any)).rejects.toThrow();
+});
+
 describe('fetchAd', () => {
   const mockResponse: AdResponseType = {
     code: 0,
